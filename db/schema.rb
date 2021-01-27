@@ -10,10 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_211511) do
+ActiveRecord::Schema.define(version: 2021_01_27_091041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "courses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "fields", force: :cascade do |t|
+    t.string "name"
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_fields_on_course_id"
+  end
+
+  create_table "lessons", force: :cascade do |t|
+    t.string "name"
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_id"], name: "index_lessons_on_subject_id"
+  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
@@ -81,7 +103,18 @@ ActiveRecord::Schema.define(version: 2021_01_26_211511) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "subjects", force: :cascade do |t|
+    t.string "name"
+    t.bigint "field_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["field_id"], name: "index_subjects_on_field_id"
+  end
+
+  add_foreign_key "fields", "courses"
+  add_foreign_key "lessons", "subjects"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "question_alternatives", "questions"
+  add_foreign_key "subjects", "fields"
 end
