@@ -1,5 +1,8 @@
 class QuestionController < ApplicationController
+    before_action :doorkeeper_authorize!, except: [:create]
+    
     def index
+        render json: {"question": "works"}
     end
 
     def create
