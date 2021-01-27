@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   use_doorkeeper
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
  
-  get 'api/v1/question', to: 'question#index'
-  post 'api/v1/question', to: 'question#create'
+  get 'professor/subjects', to: 'professor/professor#subjects'
+  post 'professor/question', to: 'professor/professor#create_question'
 
 end
