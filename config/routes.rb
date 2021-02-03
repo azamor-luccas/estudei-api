@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
 
   get 'student', to: 'student#basic_info'
+  get 'field', to: 'field#index'
+  get 'subject', to: 'subject#index'
+  get 'lesson', to: 'lesson#index'
  
-
   get 'question', to: 'question#index'
 
   get 'professor/subjects', to: 'professor/professor#subjects'
