@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_211554) do
+ActiveRecord::Schema.define(version: 2021_02_13_212918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_211554) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "letter"
+    t.string "image_url"
     t.index ["question_id"], name: "index_question_alternatives_on_question_id"
   end
 
@@ -196,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_211554) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "level"
+    t.string "image_url"
   end
 
   create_table "ranking_actions", force: :cascade do |t|
