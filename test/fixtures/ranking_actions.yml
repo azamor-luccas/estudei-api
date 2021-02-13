@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  action_type: MyString
+  points: 1.5
+  multiplier: 1.5
+  ranking: one
+  student: one
+  course: one
+
+two:
+  action_type: MyString
+  points: 1.5
+  multiplier: 1.5
+  ranking: two
+  student: two
+  course: two

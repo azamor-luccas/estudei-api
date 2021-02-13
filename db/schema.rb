@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_200643) do
+ActiveRecord::Schema.define(version: 2021_02_13_211554) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 2021_02_13_200643) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["question_id"], name: "index_commentaries_on_question_id"
     t.index ["student_id"], name: "index_commentaries_on_student_id"
+  end
+
+  create_table "course_students", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_students_on_course_id"
+    t.index ["student_id"], name: "index_course_students_on_student_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -100,6 +109,16 @@ ActiveRecord::Schema.define(version: 2021_02_13_200643) do
     t.string "status"
     t.integer "priority"
     t.index ["subject_id"], name: "index_lessons_on_subject_id"
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.string "url"
+    t.bigint "course_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_logs_on_course_id"
+    t.index ["student_id"], name: "index_logs_on_student_id"
   end
 
   create_table "material_students", force: :cascade do |t|
@@ -179,6 +198,31 @@ ActiveRecord::Schema.define(version: 2021_02_13_200643) do
     t.integer "level"
   end
 
+  create_table "ranking_actions", force: :cascade do |t|
+    t.string "action_type"
+    t.float "points"
+    t.float "multiplier"
+    t.bigint "ranking_id", null: false
+    t.bigint "student_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_ranking_actions_on_course_id"
+    t.index ["ranking_id"], name: "index_ranking_actions_on_ranking_id"
+    t.index ["student_id"], name: "index_ranking_actions_on_student_id"
+  end
+
+  create_table "rankings", force: :cascade do |t|
+    t.string "student_name"
+    t.float "score"
+    t.bigint "student_id", null: false
+    t.bigint "course_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_rankings_on_course_id"
+    t.index ["student_id"], name: "index_rankings_on_student_id"
+  end
+
   create_table "reactions", force: :cascade do |t|
     t.integer "reaction_type"
     t.bigint "student_id", null: false
@@ -240,18 +284,27 @@ ActiveRecord::Schema.define(version: 2021_02_13_200643) do
     t.index ["teacher_id"], name: "index_videos_on_teacher_id"
   end
 
+  add_foreign_key "course_students", "courses"
+  add_foreign_key "course_students", "students"
   add_foreign_key "exam_questions", "exams"
   add_foreign_key "exam_questions", "questions"
   add_foreign_key "fields", "courses"
   add_foreign_key "lesson_questions", "lessons"
   add_foreign_key "lesson_questions", "questions"
   add_foreign_key "lessons", "subjects"
+  add_foreign_key "logs", "courses"
+  add_foreign_key "logs", "students"
   add_foreign_key "material_students", "materials"
   add_foreign_key "material_students", "students"
   add_foreign_key "materials", "lessons"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "question_alternatives", "questions"
+  add_foreign_key "ranking_actions", "courses"
+  add_foreign_key "ranking_actions", "rankings"
+  add_foreign_key "ranking_actions", "students"
+  add_foreign_key "rankings", "courses"
+  add_foreign_key "rankings", "students"
   add_foreign_key "subjects", "fields"
   add_foreign_key "video_students", "students"
   add_foreign_key "video_students", "videos"
