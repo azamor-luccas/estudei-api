@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_212918) do
+ActiveRecord::Schema.define(version: 2021_02_13_214724) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,10 +47,10 @@ ActiveRecord::Schema.define(version: 2021_02_13_212918) do
     t.bigint "question_id", null: false
     t.bigint "question_alternative_id"
     t.bigint "student_id", null: false
-    t.bigint "exam_question_id", null: false
+    t.bigint "exam_student_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["exam_question_id"], name: "index_exam_question_students_on_exam_question_id"
+    t.index ["exam_student_id"], name: "index_exam_question_students_on_exam_student_id"
     t.index ["question_alternative_id"], name: "index_exam_question_students_on_question_alternative_id"
     t.index ["question_id"], name: "index_exam_question_students_on_question_id"
     t.index ["student_id"], name: "index_exam_question_students_on_student_id"
