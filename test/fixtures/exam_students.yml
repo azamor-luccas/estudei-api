@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  progress: 1.5
+  number_of_correct_answers: 1
+  student: one
+  exam: one
+
+two:
+  progress: 1.5
+  number_of_correct_answers: 1
+  student: two
+  exam: two

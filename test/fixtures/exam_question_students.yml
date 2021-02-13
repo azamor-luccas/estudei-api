@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  is_correct: 
+  question: one
+  questions_alternative: one
+  student: one
+  exam: one
+
+two:
+  is_correct: 
+  question: two
+  questions_alternative: two
+  student: two
+  exam: two

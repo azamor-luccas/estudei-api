@@ -44,7 +44,7 @@ class Professor::ProfessorController < ApplicationController
     def create_question_params
         params.permit(
             :statement,
-            :subject,
+            :level,
         )
     end
 

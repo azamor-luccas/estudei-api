@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  commentary: MyString
+  total_likes: 1
+  total_deslikes: 1
+  student: one
+  question: one
+
+two:
+  commentary: MyString
+  total_likes: 1
+  total_deslikes: 1
+  student: two
+  question: two

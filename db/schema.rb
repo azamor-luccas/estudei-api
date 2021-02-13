@@ -10,15 +10,69 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_03_005446) do
+ActiveRecord::Schema.define(version: 2021_02_13_190857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "commentaries", force: :cascade do |t|
+    t.string "commentary"
+    t.integer "total_likes"
+    t.integer "total_deslikes"
+    t.bigint "student_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["question_id"], name: "index_commentaries_on_question_id"
+    t.index ["student_id"], name: "index_commentaries_on_student_id"
+  end
 
   create_table "courses", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "exam_question_students", force: :cascade do |t|
+    t.boolean "is_correct"
+    t.bigint "question_id", null: false
+    t.bigint "question_alternative_id"
+    t.bigint "student_id", null: false
+    t.bigint "exam_question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exam_question_id"], name: "index_exam_question_students_on_exam_question_id"
+    t.index ["question_alternative_id"], name: "index_exam_question_students_on_question_alternative_id"
+    t.index ["question_id"], name: "index_exam_question_students_on_question_id"
+    t.index ["student_id"], name: "index_exam_question_students_on_student_id"
+  end
+
+  create_table "exam_questions", force: :cascade do |t|
+    t.bigint "exam_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exam_id"], name: "index_exam_questions_on_exam_id"
+    t.index ["question_id"], name: "index_exam_questions_on_question_id"
+  end
+
+  create_table "exam_students", force: :cascade do |t|
+    t.float "progress"
+    t.integer "number_of_correct_answers"
+    t.bigint "student_id", null: false
+    t.bigint "exam_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["exam_id"], name: "index_exam_students_on_exam_id"
+    t.index ["student_id"], name: "index_exam_students_on_student_id"
+  end
+
+  create_table "exams", force: :cascade do |t|
+    t.integer "exam_type"
+    t.bigint "lesson_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_exams_on_lesson_id"
   end
 
   create_table "fields", force: :cascade do |t|
@@ -29,12 +83,22 @@ ActiveRecord::Schema.define(version: 2021_02_03_005446) do
     t.index ["course_id"], name: "index_fields_on_course_id"
   end
 
+  create_table "lesson_questions", force: :cascade do |t|
+    t.bigint "lesson_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_lesson_questions_on_lesson_id"
+    t.index ["question_id"], name: "index_lesson_questions_on_question_id"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.string "name"
     t.bigint "subject_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "status"
+    t.integer "priority"
     t.index ["subject_id"], name: "index_lessons_on_subject_id"
   end
 
@@ -92,9 +156,19 @@ ActiveRecord::Schema.define(version: 2021_02_03_005446) do
 
   create_table "questions", force: :cascade do |t|
     t.string "statement"
-    t.string "subject"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "level"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.integer "reaction_type"
+    t.bigint "student_id", null: false
+    t.bigint "commentary_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["commentary_id"], name: "index_reactions_on_commentary_id"
+    t.index ["student_id"], name: "index_reactions_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -116,7 +190,11 @@ ActiveRecord::Schema.define(version: 2021_02_03_005446) do
     t.index ["field_id"], name: "index_subjects_on_field_id"
   end
 
+  add_foreign_key "exam_questions", "exams"
+  add_foreign_key "exam_questions", "questions"
   add_foreign_key "fields", "courses"
+  add_foreign_key "lesson_questions", "lessons"
+  add_foreign_key "lesson_questions", "questions"
   add_foreign_key "lessons", "subjects"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
