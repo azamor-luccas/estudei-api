@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_13_190857) do
+ActiveRecord::Schema.define(version: 2021_02_13_200643) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,24 @@ ActiveRecord::Schema.define(version: 2021_02_13_190857) do
     t.index ["subject_id"], name: "index_lessons_on_subject_id"
   end
 
+  create_table "material_students", force: :cascade do |t|
+    t.bigint "material_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["material_id"], name: "index_material_students_on_material_id"
+    t.index ["student_id"], name: "index_material_students_on_student_id"
+  end
+
+  create_table "materials", force: :cascade do |t|
+    t.string "download_link"
+    t.string "status"
+    t.bigint "lesson_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_materials_on_lesson_id"
+  end
+
   create_table "oauth_access_grants", force: :cascade do |t|
     t.bigint "resource_owner_id", null: false
     t.bigint "application_id", null: false
@@ -190,14 +208,51 @@ ActiveRecord::Schema.define(version: 2021_02_13_190857) do
     t.index ["field_id"], name: "index_subjects_on_field_id"
   end
 
+  create_table "teachers", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "video_students", force: :cascade do |t|
+    t.float "progress_percentage"
+    t.integer "progress_in_seconds"
+    t.boolean "finished"
+    t.bigint "video_id", null: false
+    t.bigint "student_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["student_id"], name: "index_video_students_on_student_id"
+    t.index ["video_id"], name: "index_video_students_on_video_id"
+  end
+
+  create_table "videos", force: :cascade do |t|
+    t.integer "duration_in_seconds"
+    t.string "status"
+    t.string "video_url"
+    t.string "vimeo_id"
+    t.bigint "lesson_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "teacher_id"
+    t.index ["lesson_id"], name: "index_videos_on_lesson_id"
+    t.index ["teacher_id"], name: "index_videos_on_teacher_id"
+  end
+
   add_foreign_key "exam_questions", "exams"
   add_foreign_key "exam_questions", "questions"
   add_foreign_key "fields", "courses"
   add_foreign_key "lesson_questions", "lessons"
   add_foreign_key "lesson_questions", "questions"
   add_foreign_key "lessons", "subjects"
+  add_foreign_key "material_students", "materials"
+  add_foreign_key "material_students", "students"
+  add_foreign_key "materials", "lessons"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "question_alternatives", "questions"
   add_foreign_key "subjects", "fields"
+  add_foreign_key "video_students", "students"
+  add_foreign_key "video_students", "videos"
 end
