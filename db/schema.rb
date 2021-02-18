@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2021_02_13_214724) do
   end
 
   create_table "exam_students", force: :cascade do |t|
+    t.boolean "finished"
     t.float "progress"
     t.integer "number_of_correct_answers"
     t.bigint "student_id", null: false
@@ -288,12 +289,8 @@ ActiveRecord::Schema.define(version: 2021_02_13_214724) do
 
   add_foreign_key "course_students", "courses"
   add_foreign_key "course_students", "students"
-  add_foreign_key "exam_questions", "exams"
-  add_foreign_key "exam_questions", "questions"
-  add_foreign_key "fields", "courses"
   add_foreign_key "lesson_questions", "lessons"
   add_foreign_key "lesson_questions", "questions"
-  add_foreign_key "lessons", "subjects"
   add_foreign_key "logs", "courses"
   add_foreign_key "logs", "students"
   add_foreign_key "material_students", "materials"
@@ -301,7 +298,6 @@ ActiveRecord::Schema.define(version: 2021_02_13_214724) do
   add_foreign_key "materials", "lessons"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
-  add_foreign_key "question_alternatives", "questions"
   add_foreign_key "ranking_actions", "courses"
   add_foreign_key "ranking_actions", "rankings"
   add_foreign_key "ranking_actions", "students"

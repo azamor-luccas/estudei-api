@@ -16,6 +16,12 @@ class Professor::ProfessorController < ApplicationController
     def create_question
         question = Question.new(create_question_params)
         if question.save
+            if params[:lesson_id]
+                exam = Exam.find_by(lesson_id: params[:lesson_id])
+                if exam
+                  ExamQuestion.create(exam_id: exam.id, question_id: question.id)
+                end
+            end
             alternatives = []
             params['alternatives'].each do |alternative|
                 alternatives.append({
