@@ -10,6 +10,8 @@ Rails.application.routes.draw do
   post 'commentary', to: 'commentary#comment_question'
   post 'question/answer', to: 'question#answer_question'
 
+  post 'juno_payment_hook_x0257', to: 'juno#index'
+
   get 'professor/subjects', to: 'professor/professor#subjects'
   post 'professor/question', to: 'professor/professor#create_question'
 
