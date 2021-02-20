@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'subject', to: 'subject#index'
   get 'lesson', to: 'lesson#index'
   get 'exam', to: 'exam#index'
+  get 'video', to: 'video#index'
   post 'commentary', to: 'commentary#comment_question'
   post 'question/answer', to: 'question#answer_question'
 
