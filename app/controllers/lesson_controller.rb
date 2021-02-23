@@ -4,7 +4,10 @@ class LessonController < ApplicationController
     
     def index
         if params[:subject_id]
-            render json: Lesson.where(subject_id: params[:subject_id], status: "visible").pluck(:id, :name), status: :ok
+            render json: Lesson.where(subject_id: params[:subject_id], status: "visible").as_json(
+                only: [:id, :name],
+                methods: [:color]
+                ), status: :ok
         else
             render json: Lesson.all.pluck(:id, :name), status: :ok
         end

@@ -4,7 +4,10 @@ class ExamController < ApplicationController
     
     def index
         if params[:lesson_id]
-            render json: Exam.where(lesson_id: params[:lesson_id]).pluck(:id), status: :ok
+            render json: Exam.where(lesson_id: params[:lesson_id]).as_json(
+                only: [:id],
+                methods: [:color]
+                ), status: :ok
         elsif params[:exam_id]
             questions_ids = Exam.find_by(id: params[:exam_id])&.exam_questions&.pluck(:question_id)
             if questions_ids
