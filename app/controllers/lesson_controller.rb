@@ -9,7 +9,10 @@ class LessonController < ApplicationController
                 methods: [:color]
                 ), status: :ok
         else
-            render json: Lesson.all.pluck(:id, :name), status: :ok
+            render json: Lesson.where(status: "visible").order(created_at: :desc).as_json(
+                only: [:id, :name],
+                methods: [:color]
+                ), status: :ok
         end
     end
 
