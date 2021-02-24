@@ -9,7 +9,10 @@ class VideoController < ApplicationController
                 methods: [:color]
             ), status: :ok
         else
-            render json: "Lesson_id is required", status: :unprocessable_entity
+            render json: Video.where(status: "visible").order(created_at: :desc).as_json(
+                only: [:id, :duration_in_seconds, :video_url, :vimeo_id],
+                methods: [:color]
+            ), status: :ok
         end
     end
 
